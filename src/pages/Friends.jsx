@@ -149,17 +149,14 @@ const Friends = () => {
   const handleScan = async (data) => {
     if (data) {
       try {
-        const res = await fetch(
-          `${API_BASE_URL}/api/connections/verify`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-            body: JSON.stringify({ token: data }),
-          }
-        );
+        const res = await fetch(`${API_BASE_URL}/api/connections/verify`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify({ token: data }),
+        });
         if (res.ok) {
           const resp = await res.json();
           window.location.href = `/connection/${resp.connectionId}`;
@@ -368,6 +365,9 @@ const Friends = () => {
                   ref={webcamRef}
                   audio={false}
                   screenshotFormat="image/png"
+                  videoConstraints={{
+                    facingMode: { exact: "environment" },
+                  }}
                   style={{
                     width: "320px",
                     height: "320px",
